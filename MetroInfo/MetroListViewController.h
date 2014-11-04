@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MetroListTableView.h"
+#import "Mapkit/MapKit.h"
+#import "CoreLocation/CoreLocation.h"
 
 @interface MetroListViewController : UIViewController
+<UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
+
+@property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
+@property (strong, nonatomic) IBOutlet MKMapView *metroMapView;
+@property (strong, nonatomic) CLLocationManager *metroLocationManager;
 
 @end

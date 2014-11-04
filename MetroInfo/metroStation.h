@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface metroStation : NSObject
-
+@interface MetroStation : NSObject
+@property (nonatomic,copy) NSString *stationName;
+@property (nonatomic,copy) NSDate* openTime;
+@property (nonatomic,copy) NSDate* closeTime;
+-(instancetype)initWithName:(NSString*)name openDate:(NSDate*)opendate closeDate:(NSDate*)closedate;
+//-(void)setMetroStation;
 @end

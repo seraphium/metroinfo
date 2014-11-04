@@ -7,13 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B9D6E221A09018D005AE160 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9D6E211A09018D005AE160 /* CoreLocation.framework */; };
+		4B9D6E241A090194005AE160 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9D6E231A090194005AE160 /* MapKit.framework */; };
+		4BBE11351A0531300092E63D /* MetroStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBE11341A0531300092E63D /* MetroStation.m */; };
 		4BCB02FD1A04E34300AC4BAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB02FC1A04E34300AC4BAF /* main.m */; };
 		4BCB03001A04E34300AC4BAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB02FF1A04E34300AC4BAF /* AppDelegate.m */; };
-		4BCB03031A04E34300AC4BAF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03021A04E34300AC4BAF /* ViewController.m */; };
 		4BCB03061A04E34300AC4BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB03041A04E34300AC4BAF /* Main.storyboard */; };
 		4BCB03081A04E34300AC4BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB03071A04E34300AC4BAF /* Images.xcassets */; };
 		4BCB030B1A04E34300AC4BAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB03091A04E34300AC4BAF /* LaunchScreen.xib */; };
 		4BCB03171A04E34300AC4BAF /* MetroInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03161A04E34300AC4BAF /* MetroInfoTests.m */; };
+		4BCB03251A04EBA000AC4BAF /* MetroListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03241A04EBA000AC4BAF /* MetroListTableView.m */; };
+		4BCB032E1A04ECF500AC4BAF /* MetroInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB032D1A04ECF500AC4BAF /* MetroInfoViewController.m */; };
+		4BCB03311A04EF7000AC4BAF /* MetroListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03301A04EF7000AC4BAF /* MetroListViewController.m */; };
+		4BCB03371A04F0DA00AC4BAF /* MetroLineItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03361A04F0DA00AC4BAF /* MetroLineItem.m */; };
+		4BE369D41A07B61F0025F01C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE369D31A07B61F0025F01C /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,19 +34,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B9D6E211A09018D005AE160 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		4B9D6E231A090194005AE160 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		4BBE11331A0531300092E63D /* MetroStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroStation.h; sourceTree = "<group>"; };
+		4BBE11341A0531300092E63D /* MetroStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroStation.m; sourceTree = "<group>"; };
 		4BCB02F71A04E34300AC4BAF /* MetroInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetroInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BCB02FB1A04E34300AC4BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BCB02FC1A04E34300AC4BAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4BCB02FE1A04E34300AC4BAF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4BCB02FF1A04E34300AC4BAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4BCB03011A04E34300AC4BAF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4BCB03021A04E34300AC4BAF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4BCB03051A04E34300AC4BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4BCB03071A04E34300AC4BAF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4BCB030A1A04E34300AC4BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4BCB03101A04E34300AC4BAF /* MetroInfoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetroInfoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BCB03151A04E34300AC4BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BCB03161A04E34300AC4BAF /* MetroInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetroInfoTests.m; sourceTree = "<group>"; };
+		4BCB03231A04EBA000AC4BAF /* MetroListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetroListTableView.h; path = ../MetroListTableView.h; sourceTree = "<group>"; };
+		4BCB03241A04EBA000AC4BAF /* MetroListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MetroListTableView.m; path = ../MetroListTableView.m; sourceTree = "<group>"; };
+		4BCB032C1A04ECF500AC4BAF /* MetroInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroInfoViewController.h; sourceTree = "<group>"; };
+		4BCB032D1A04ECF500AC4BAF /* MetroInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroInfoViewController.m; sourceTree = "<group>"; };
+		4BCB032F1A04EF7000AC4BAF /* MetroListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroListViewController.h; sourceTree = "<group>"; };
+		4BCB03301A04EF7000AC4BAF /* MetroListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroListViewController.m; sourceTree = "<group>"; };
+		4BCB03351A04F0DA00AC4BAF /* MetroLineItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroLineItem.h; sourceTree = "<group>"; };
+		4BCB03361A04F0DA00AC4BAF /* MetroLineItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroLineItem.m; sourceTree = "<group>"; };
+		4BE369D31A07B61F0025F01C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +65,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B9D6E241A090194005AE160 /* MapKit.framework in Frameworks */,
+				4B9D6E221A09018D005AE160 /* CoreLocation.framework in Frameworks */,
+				4BE369D41A07B61F0025F01C /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +84,9 @@
 		4BCB02EE1A04E34300AC4BAF = {
 			isa = PBXGroup;
 			children = (
+				4B9D6E231A090194005AE160 /* MapKit.framework */,
+				4B9D6E211A09018D005AE160 /* CoreLocation.framework */,
+				4BE369D31A07B61F0025F01C /* libsqlite3.dylib */,
 				4BCB02F91A04E34300AC4BAF /* MetroInfo */,
 				4BCB03131A04E34300AC4BAF /* MetroInfoTests */,
 				4BCB02F81A04E34300AC4BAF /* Products */,
@@ -83,9 +107,17 @@
 			children = (
 				4BCB02FE1A04E34300AC4BAF /* AppDelegate.h */,
 				4BCB02FF1A04E34300AC4BAF /* AppDelegate.m */,
-				4BCB03011A04E34300AC4BAF /* ViewController.h */,
-				4BCB03021A04E34300AC4BAF /* ViewController.m */,
+				4BCB032C1A04ECF500AC4BAF /* MetroInfoViewController.h */,
+				4BCB032D1A04ECF500AC4BAF /* MetroInfoViewController.m */,
+				4BCB03231A04EBA000AC4BAF /* MetroListTableView.h */,
+				4BCB03241A04EBA000AC4BAF /* MetroListTableView.m */,
 				4BCB03041A04E34300AC4BAF /* Main.storyboard */,
+				4BCB032F1A04EF7000AC4BAF /* MetroListViewController.h */,
+				4BCB03301A04EF7000AC4BAF /* MetroListViewController.m */,
+				4BCB03351A04F0DA00AC4BAF /* MetroLineItem.h */,
+				4BCB03361A04F0DA00AC4BAF /* MetroLineItem.m */,
+				4BBE11331A0531300092E63D /* MetroStation.h */,
+				4BBE11341A0531300092E63D /* MetroStation.m */,
 				4BCB03071A04E34300AC4BAF /* Images.xcassets */,
 				4BCB03091A04E34300AC4BAF /* LaunchScreen.xib */,
 				4BCB02FA1A04E34300AC4BAF /* Supporting Files */,
@@ -219,7 +251,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BCB03031A04E34300AC4BAF /* ViewController.m in Sources */,
+				4BCB03371A04F0DA00AC4BAF /* MetroLineItem.m in Sources */,
+				4BCB03251A04EBA000AC4BAF /* MetroListTableView.m in Sources */,
+				4BBE11351A0531300092E63D /* MetroStation.m in Sources */,
+				4BCB032E1A04ECF500AC4BAF /* MetroInfoViewController.m in Sources */,
+				4BCB03311A04EF7000AC4BAF /* MetroListViewController.m in Sources */,
 				4BCB03001A04E34300AC4BAF /* AppDelegate.m in Sources */,
 				4BCB02FD1A04E34300AC4BAF /* main.m in Sources */,
 			);
@@ -412,6 +448,7 @@
 				4BCB031C1A04E34300AC4BAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4BCB031D1A04E34300AC4BAF /* Build configuration list for PBXNativeTarget "MetroInfoTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +457,7 @@
 				4BCB031F1A04E34300AC4BAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

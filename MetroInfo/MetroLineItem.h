@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "metroStation.h"
 
 @interface MetroLineItem : NSObject
-
+@property (nonatomic, copy) NSString *lineName;
+@property (nonatomic, retain) NSMutableArray *stationArray;
+-(instancetype)initWithName:(NSString*)lineName Stations:(NSMutableArray*)stationArray;
+-(void)addStation:(MetroStation *)station;
 @end

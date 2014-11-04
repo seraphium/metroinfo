@@ -6,8 +6,14 @@
 //  Copyright (c) 2014年 Jackie Zhang. All rights reserved.
 //
 
-#import "metroStation.h"
+#import "MetroStation.h"
 
-@implementation metroStation
-
+@implementation MetroStation
+-(instancetype)initWithName:(NSString*)name openDate:(NSDate*)opendate closeDate:(NSDate*)closedate
+{
+    self.stationName = name;
+    self.openTime = opendate;
+    self.closeTime = closedate;
+    return self;
+}
 @end
