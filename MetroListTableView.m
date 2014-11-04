@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  MetroListTableView.m
 //  MetroInfo
 //
 //  Created by Jackie Zhang on 14/11/1.
 //  Copyright (c) 2014年 Jackie Zhang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MetroListTableView.h"
 
-@interface ViewController : UIViewController
-
+@implementation MetroListTableView
 
 @end
-
