@@ -12,11 +12,16 @@
 #import "CoreLocation/CoreLocation.h"
 
 @interface MetroListViewController : UIViewController
-<UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
+<UITableViewDataSource, UITableViewDelegate,
+MKMapViewDelegate, CLLocationManagerDelegate,
+UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
 @property (strong, nonatomic) IBOutlet MKMapView *metroMapView;
 @property (strong, nonatomic) CLLocationManager *metroLocationManager;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *metroSearchBar;
+@property (strong, nonatomic) IBOutlet UISearchDisplayController *metroSearchController;
 
 @end

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B228C071A0CFA8200C0D6B8 /* metroinfo.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4B228C061A0CFA8200C0D6B8 /* metroinfo.sqlite */; };
+		4B228C0A1A0D1FAF00C0D6B8 /* SearchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B228C091A0D1FAF00C0D6B8 /* SearchInfo.m */; };
 		4B9D6E221A09018D005AE160 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9D6E211A09018D005AE160 /* CoreLocation.framework */; };
 		4B9D6E241A090194005AE160 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9D6E231A090194005AE160 /* MapKit.framework */; };
 		4BBE11351A0531300092E63D /* MetroStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBE11341A0531300092E63D /* MetroStation.m */; };
@@ -34,6 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B228C061A0CFA8200C0D6B8 /* metroinfo.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = metroinfo.sqlite; sourceTree = "<group>"; };
+		4B228C081A0D1FAF00C0D6B8 /* SearchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchInfo.h; sourceTree = "<group>"; };
+		4B228C091A0D1FAF00C0D6B8 /* SearchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchInfo.m; sourceTree = "<group>"; };
 		4B9D6E211A09018D005AE160 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4B9D6E231A090194005AE160 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4BBE11331A0531300092E63D /* MetroStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroStation.h; sourceTree = "<group>"; };
@@ -81,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B228C051A0CFA8200C0D6B8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4B228C061A0CFA8200C0D6B8 /* metroinfo.sqlite */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		4BCB02EE1A04E34300AC4BAF = {
 			isa = PBXGroup;
 			children = (
@@ -118,8 +131,11 @@
 				4BCB03361A04F0DA00AC4BAF /* MetroLineItem.m */,
 				4BBE11331A0531300092E63D /* MetroStation.h */,
 				4BBE11341A0531300092E63D /* MetroStation.m */,
+				4B228C081A0D1FAF00C0D6B8 /* SearchInfo.h */,
+				4B228C091A0D1FAF00C0D6B8 /* SearchInfo.m */,
 				4BCB03071A04E34300AC4BAF /* Images.xcassets */,
 				4BCB03091A04E34300AC4BAF /* LaunchScreen.xib */,
+				4B228C051A0CFA8200C0D6B8 /* Resources */,
 				4BCB02FA1A04E34300AC4BAF /* Supporting Files */,
 			);
 			path = MetroInfo;
@@ -234,6 +250,7 @@
 				4BCB03061A04E34300AC4BAF /* Main.storyboard in Resources */,
 				4BCB030B1A04E34300AC4BAF /* LaunchScreen.xib in Resources */,
 				4BCB03081A04E34300AC4BAF /* Images.xcassets in Resources */,
+				4B228C071A0CFA8200C0D6B8 /* metroinfo.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BCB03371A04F0DA00AC4BAF /* MetroLineItem.m in Sources */,
+				4B228C0A1A0D1FAF00C0D6B8 /* SearchInfo.m in Sources */,
 				4BCB03251A04EBA000AC4BAF /* MetroListTableView.m in Sources */,
 				4BBE11351A0531300092E63D /* MetroStation.m in Sources */,
 				4BCB032E1A04ECF500AC4BAF /* MetroInfoViewController.m in Sources */,

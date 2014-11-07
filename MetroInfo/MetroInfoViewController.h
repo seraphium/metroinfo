@@ -14,7 +14,9 @@
 @property (nonatomic, retain) MetroStation *metroStation;
 @property (weak, nonatomic) IBOutlet UILabel *lbLine;
 @property (weak, nonatomic) IBOutlet UILabel *lbStation;
-@property (weak, nonatomic) IBOutlet UILabel *lbOpenDate;
-@property (weak, nonatomic) IBOutlet UILabel *lbCloseDate;
+@property (weak, nonatomic) IBOutlet UILabel *lbOpenDate1;
+@property (weak, nonatomic) IBOutlet UILabel *lbCloseDate1;
+@property (weak, nonatomic) IBOutlet UILabel *lbOpenDate2;
+@property (weak, nonatomic) IBOutlet UILabel *lbCloseDate2;
 
 @end

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BDDE3E1B-A960-4621-A467-FC762544FED0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MetroInfo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B543DCDFBC83D435F2C0A2F6821D6820161561C4</key>
+		<string>https://github.com/seraphium/metroinfo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MetroInfo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B543DCDFBC83D435F2C0A2F6821D6820161561C4</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/seraphium/metroinfo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B543DCDFBC83D435F2C0A2F6821D6820161561C4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B543DCDFBC83D435F2C0A2F6821D6820161561C4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MetroInfo</string>
+		</dict>
+	</array>
+</dict>
+</plist>

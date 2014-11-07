@@ -3,7 +3,21 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[MetroListViewController locationManager:didChangeAuthorizationStatus:]:MetroListViewController.m">
+      </ContextState>
+      <ContextState
          contextName = "-[MetroListViewController initialData]:MetroListViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.metroArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[MetroInfoViewController viewDidLoad]:MetroInfoViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[MetroListViewController filterContentForSearchText:]:MetroListViewController.m">
          <PersistentStrings>
             <PersistentString
                value = "self.metroArray">

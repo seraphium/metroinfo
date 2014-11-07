@@ -11,10 +11,10 @@
 #import "MetroStation.h"
 #import "MetroInfoViewController.h"
 #import "sqlite3.h"
+#import "SearchInfo.h"
 
 #define DBNAME @"metroinfo.sqlite"
 #define TABLENAME @"METROINFO"
-
 
 @interface MetroListViewController()
 {
@@ -26,6 +26,9 @@
 @property (nonatomic, assign) int iSelectedLine;
 @property (nonatomic, assign) int iSelectedStation;
 @property (nonatomic, assign) CLLocationCoordinate2D curLocation;
+//for searchbar
+@property (nonatomic, retain) NSMutableArray * searchedArray;
+@property (nonatomic) BOOL isLocateAvail;
 @end
 
 @implementation MetroListViewController
@@ -33,14 +36,7 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     NSLog(@"location=%@", newLocation.description);
-    if (self.metroLocationManager == nil)
-    {
-        self.metroMapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
-        self.metroMapView.mapType = MKMapTypeStandard;
-        self.metroMapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.metroMapView.delegate = self;
-       
-    }
+    self.isLocateAvail = YES;
     self.curLocation = newLocation.coordinate;
     MKCoordinateSpan span = MKCoordinateSpanMake(0.05, 0.05);
     MKCoordinateRegion viewRegion = MKCoordinateRegionMake(self.curLocation, span);
@@ -96,13 +92,15 @@
     self.tvMetroListView.delegate = self;
     self.tvMetroListView.dataSource = self;
     [self.tvMetroListView reloadData];
-  
+    
+    self.metroSearchBar.delegate = self;
+    self.isLocateAvail = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [self initLocation];
-
+  
 }
 
 -(void)Alert:(NSString *)msg
@@ -115,12 +113,10 @@
 -(void)initialData
 {
     self.metroArray = [NSMutableArray arrayWithCapacity:50];
-    
+    self.searchedArray = [NSMutableArray arrayWithCapacity:50];
 //load data from sqlte db
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documents = [paths objectAtIndex:0];
-    NSLog(documents);
-    NSString *database_path = [documents stringByAppendingPathComponent:DBNAME];
+    NSString *database_path = [[NSBundle mainBundle] pathForResource:@"metroinfo" ofType:@"sqlite"];
+    NSLog(database_path);
     if (sqlite3_open([database_path UTF8String], &db) != SQLITE_OK)
     {
         sqlite3_close(db);
@@ -148,19 +144,23 @@
          NSString *lineName = [[NSString alloc] initWithUTF8String:line];
          char *station = (char*)sqlite3_column_text(statement, 2);
          NSString *stationName = [[NSString alloc] initWithUTF8String:station];
-         const char *open = sqlite3_column_text(statement, 3);
-         NSString *openDate = [[NSString alloc] initWithUTF8String:open];
-         const char *close = sqlite3_column_text(statement, 4);
-         NSString *closeDate = [[NSString alloc] initWithUTF8String:close];
+         const char *open1 = sqlite3_column_text(statement, 3);
+         NSString *openDate1 = [[NSString alloc] initWithUTF8String:open1];
+         const char *open2 = sqlite3_column_text(statement, 4);
+         NSString *openDate2 = [[NSString alloc] initWithUTF8String:open2];
+         const char *close1 = sqlite3_column_text(statement, 5);
+         NSString *closeDate1 = [[NSString alloc] initWithUTF8String:close1];
+         const char *close2 = sqlite3_column_text(statement, 6);
+         NSString *closeDate2 = [[NSString alloc] initWithUTF8String:close2];
          
-         MetroStation* stationItem = [[MetroStation alloc] initWithName:stationName openDate:openDate closeDate:closeDate];
+         MetroStation* stationItem = [[MetroStation alloc] initWithName:stationName openDate1:openDate1 closeDate1:closeDate1 openDate2:openDate2 closeDate2:closeDate2];
+         
          //if not exists ,create new array
          NSUInteger indexOfLine = [self.metroArray indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop)
          {
              MetroLineItem *item = (MetroLineItem*)obj;
              return [item.lineName isEqualToString:lineName];
          }];
-         
         if (indexOfLine == NSNotFound)
         {
             MetroLineItem *line = [[MetroLineItem alloc] initWithName:lineName Stations:nil];
@@ -190,14 +190,31 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     // Return the number of rows in the section
-    return [self.showArray count];
+    if ([tableView isEqual:self.metroSearchController.searchResultsTableView])
+    {    //searched result
+        return [self.searchedArray count];
+    }
+    else
+        return [self.showArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"metroLineTableCell" forIndexPath:indexPath];
-    NSString *item = [self.showArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = item;
+    UITableViewCell *cell;
+    if ([tableView isEqual:self.metroSearchController.searchResultsTableView])
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        if ([self.searchedArray count] > 0)
+        {
+            SearchInfo *info = [self.searchedArray objectAtIndex:indexPath.row];
+            cell.textLabel.text = info.mixedString;
+        }
+    }
+    else
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"metroLineTableCell" forIndexPath:indexPath];
+        cell.textLabel.text = [self.showArray objectAtIndex:indexPath.row];
+    }
 
     return cell;
     
@@ -208,36 +225,56 @@
     UINavigationController *navigationController = segue.destinationViewController;
     
     MetroInfoViewController *vcMetroInfoController = [navigationController.viewControllers objectAtIndex:0];
+
     MetroLineItem *item = [self.metroArray objectAtIndex:self.iSelectedLine];
     MetroStation *station = [item.stationArray objectAtIndex:self.iSelectedStation];
+
     vcMetroInfoController.lineName = item.lineName;
     vcMetroInfoController.metroStation = station;
-   // vcMetroInfoController.metroStation = [[MetroStation alloc] initWithName:station.stationName openDate:station.openTime closeDate:station.closeTime];
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (!self.isStation)
+    if ([tableView isEqual:self.metroSearchController.searchResultsTableView])
     {
-        NSMutableArray* array = [[self.metroArray objectAtIndex:indexPath.row] stationArray];
-        self.showArray = [array valueForKey:@"stationName"];
-        [self.tvMetroListView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
-        self.isStation = YES;
-        self.iSelectedLine = indexPath.row;
-        self.cityButton.title = @"后退";
+        SearchInfo *info = [self.searchedArray objectAtIndex:indexPath.row];
+        self.iSelectedLine = info.lineNum;
+        self.iSelectedStation = info.stationNum;
+        [self performSegueWithIdentifier:@"sequeStation" sender:tableView];
+
     }
     else
     {
-        self.iSelectedStation = indexPath.row;
-        [self performSegueWithIdentifier:@"sequeStation" sender:self];
-    
+        if (!self.isStation)
+        {
+            NSMutableArray* array = [[self.metroArray objectAtIndex:indexPath.row] stationArray];
+            self.showArray = [array valueForKey:@"stationName"];
+            [self.tvMetroListView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+            self.isStation = YES;
+            self.iSelectedLine = indexPath.row;
+            self.cityButton.title = @"后退";
+        }
+        else
+        {
+            self.iSelectedStation = indexPath.row;
+            [self performSegueWithIdentifier:@"sequeStation" sender:self];
+        
+        }
     }
 }
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)seque
 {
+    if (self.isLocateAvail)
+    {
+        MKCoordinateSpan span = MKCoordinateSpanMake(0.05, 0.05);
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMake(self.curLocation, span);
+        MKCoordinateRegion adjustedRegion = [self.metroMapView regionThatFits:viewRegion];
+        [self.metroMapView setRegion:adjustedRegion animated:YES];
+    }
 }
 - (IBAction)didSelectCityBackBtn:(id)sender {
     
@@ -254,6 +291,53 @@
     }
 }
 
+
+#pragma mark search logic
+- (void)filterContentForSearchText:(NSString*)searchText
+{
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd]%@", searchText];
+    int itemNum = 0;
+    for (MetroLineItem *item in self.metroArray)
+    {
+        int stationNum = 0;
+        for (MetroStation *station in item.stationArray)
+        {
+            if ([resultPredicate evaluateWithObject:station.stationName])
+            {
+                SearchInfo *info = [[SearchInfo alloc] init];
+                info.mixedString = [NSString stringWithFormat:@"%@ - %@", item.lineName, station.stationName];
+                info.lineNum = itemNum;
+                info.stationNum = stationNum;
+                [self.searchedArray addObject:info];
+            }
+            stationNum++;
+        }
+        itemNum++;
+    }
+    
+                
+}
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString];
+
+    return YES;
+}
+
+-(void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView
+{
+    [self.searchedArray removeAllObjects];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+
+}
 
 
 

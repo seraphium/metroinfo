@@ -10,8 +10,10 @@
 
 @interface MetroStation : NSObject
 @property (nonatomic,copy) NSString *stationName;
-@property (nonatomic,copy) NSDate* openTime;
-@property (nonatomic,copy) NSDate* closeTime;
--(instancetype)initWithName:(NSString*)name openDate:(NSDate*)opendate closeDate:(NSDate*)closedate;
+@property (nonatomic,copy) NSDate* openTime1;
+@property (nonatomic,copy) NSDate* closeTime1;
+@property (nonatomic,copy) NSDate* openTime2;
+@property (nonatomic,copy) NSDate* closeTime2;
+-(instancetype)initWithName:(NSString*)name openDate1:(NSDate*)opendate1 closeDate1:(NSDate*)closedate1 openDate2:(NSDate*)opendate2 closeDate2:(NSDate*)closedate2;
 //-(void)setMetroStation;
 @end
