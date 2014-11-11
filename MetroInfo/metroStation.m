@@ -9,7 +9,7 @@
 #import "MetroStation.h"
 
 @implementation MetroStation
--(instancetype)initWithName:(NSString*)name openDate1:(NSDate*)opendate1 closeDate1:(NSDate*)closedate1 openDate2:(NSDate*)opendate2 closeDate2:(NSDate*)closedate2
+-(instancetype)initWithName:(NSString*)name openDate1:(NSString*)opendate1 closeDate1:(NSString*)closedate1 openDate2:(NSString*)opendate2 closeDate2:(NSString*)closedate2
 {
     self.stationName = name;
     self.openTime1 = opendate1;

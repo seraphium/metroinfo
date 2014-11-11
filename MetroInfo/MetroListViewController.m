@@ -25,66 +25,18 @@
 @property (nonatomic) BOOL isStation;
 @property (nonatomic, assign) int iSelectedLine;
 @property (nonatomic, assign) int iSelectedStation;
-@property (nonatomic, assign) CLLocationCoordinate2D curLocation;
+@property (nonatomic, assign) BMKUserLocation * curLocation;
 //for searchbar
 @property (nonatomic, retain) NSMutableArray * searchedArray;
 @property (nonatomic) BOOL isLocateAvail;
+
 @end
 
 @implementation MetroListViewController
 
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    NSLog(@"location=%@", newLocation.description);
-    self.isLocateAvail = YES;
-    self.curLocation = newLocation.coordinate;
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.05, 0.05);
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMake(self.curLocation, span);
-    MKCoordinateRegion adjustedRegion = [self.metroMapView regionThatFits:viewRegion];
-    [self.metroMapView setRegion:adjustedRegion animated:YES];
-
-}
-
--(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"failed to get user location:%@", error);
-    
-}
-
--(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    switch (status) {
-        case kCLAuthorizationStatusNotDetermined:
-            if ([manager respondsToSelector:@selector(requestAlwaysAuthorization)])
-            {
-                [manager requestAlwaysAuthorization];
-            }
-            break;
-            
-        default:
-            break;
-    }
-}
--(void)initLocation
-{
-    if ([CLLocationManager locationServicesEnabled])
-    {
-        self.metroLocationManager = [[CLLocationManager alloc] init];
-        self.metroLocationManager.delegate = self;
-        [self.metroLocationManager requestAlwaysAuthorization];
-        self.metroLocationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.metroLocationManager.distanceFilter = 10.0f;
-        [self.metroLocationManager startUpdatingLocation];
-        NSLog(@"Location service started");
-    }
-    else{
-        NSLog(@"Location service not enabled.");
-    }
-}
-
-
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.cityButton.title = @"城市";
     [self initialData];
     self.isStation = NO;
@@ -94,12 +46,51 @@
     [self.tvMetroListView reloadData];
     
     self.metroSearchBar.delegate = self;
+    
+    //initialize baidu map and location service
     self.isLocateAvail = NO;
+    self.locationService = [[BMKLocationService alloc] init];
+    [self.locationService startUserLocationService];
+    self.metroView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 232)];
+
+    self.metroView.showsUserLocation = NO;
+    self.metroView.userTrackingMode = BMKUserTrackingModeNone;
+    self.metroView.showsUserLocation = YES;
+    
+    [self.mapView addSubview:self.metroView];
+
 }
 
+-(void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+{
+    
+}
+
+-(void)didUpdateUserLocation:(BMKUserLocation *)userLocation
+{
+    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    self.curLocation = userLocation;
+    [self.locationService stopUserLocationService];
+    [self.metroView updateLocationData:userLocation];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.metroView viewWillAppear];
+    self.metroView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    self.locationService.delegate = self;
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [self.metroView viewWillDisappear];
+    self.metroView.delegate = nil;
+    self.locationService.delegate = nil;
+    
+}
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self initLocation];
   
 }
 
@@ -112,6 +103,7 @@
 
 -(void)initialData
 {
+    self.selectedCity = [[City alloc] init];
     self.metroArray = [NSMutableArray arrayWithCapacity:50];
     self.searchedArray = [NSMutableArray arrayWithCapacity:50];
 //load data from sqlte db
@@ -144,14 +136,14 @@
          NSString *lineName = [[NSString alloc] initWithUTF8String:line];
          char *station = (char*)sqlite3_column_text(statement, 2);
          NSString *stationName = [[NSString alloc] initWithUTF8String:station];
-         const char *open1 = sqlite3_column_text(statement, 3);
-         NSString *openDate1 = [[NSString alloc] initWithUTF8String:open1];
-         const char *open2 = sqlite3_column_text(statement, 4);
-         NSString *openDate2 = [[NSString alloc] initWithUTF8String:open2];
-         const char *close1 = sqlite3_column_text(statement, 5);
-         NSString *closeDate1 = [[NSString alloc] initWithUTF8String:close1];
-         const char *close2 = sqlite3_column_text(statement, 6);
-         NSString *closeDate2 = [[NSString alloc] initWithUTF8String:close2];
+         const unsigned char *open1 = sqlite3_column_text(statement, 3);
+         NSString *openDate1 = [[NSString alloc] initWithUTF8String:(const char*)open1];
+         const unsigned char *open2 = sqlite3_column_text(statement, 4);
+         NSString *openDate2 = [[NSString alloc] initWithUTF8String:(const char*)open2];
+         const unsigned char *close1 = sqlite3_column_text(statement, 5);
+         NSString *closeDate1 = [[NSString alloc] initWithUTF8String:(const char*)close1];
+         const unsigned char *close2 = sqlite3_column_text(statement, 6);
+         NSString *closeDate2 = [[NSString alloc] initWithUTF8String:(const char*)close2];
          
          MetroStation* stationItem = [[MetroStation alloc] initWithName:stationName openDate1:openDate1 closeDate1:closeDate1 openDate2:openDate2 closeDate2:closeDate2];
          
@@ -222,16 +214,22 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    UINavigationController *navigationController = segue.destinationViewController;
-    
-    MetroInfoViewController *vcMetroInfoController = [navigationController.viewControllers objectAtIndex:0];
+    if ([sender isKindOfClass:UIBarButtonItem.class])
+    {
+        
+    }
+    else
+    {
+        UINavigationController *navigationController = segue.destinationViewController;
+        
+        MetroInfoViewController *vcMetroInfoController = [navigationController.viewControllers objectAtIndex:0];
 
-    MetroLineItem *item = [self.metroArray objectAtIndex:self.iSelectedLine];
-    MetroStation *station = [item.stationArray objectAtIndex:self.iSelectedStation];
+        MetroLineItem *item = [self.metroArray objectAtIndex:self.iSelectedLine];
+        MetroStation *station = [item.stationArray objectAtIndex:self.iSelectedStation];
 
-    vcMetroInfoController.lineName = item.lineName;
-    vcMetroInfoController.metroStation = station;
-
+        vcMetroInfoController.lineName = item.lineName;
+        vcMetroInfoController.metroStation = station;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -266,16 +264,6 @@
     }
 }
 
-- (IBAction)unwindToList:(UIStoryboardSegue *)seque
-{
-    if (self.isLocateAvail)
-    {
-        MKCoordinateSpan span = MKCoordinateSpanMake(0.05, 0.05);
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMake(self.curLocation, span);
-        MKCoordinateRegion adjustedRegion = [self.metroMapView regionThatFits:viewRegion];
-        [self.metroMapView setRegion:adjustedRegion animated:YES];
-    }
-}
 - (IBAction)didSelectCityBackBtn:(id)sender {
     
     if (self.isStation)
@@ -315,8 +303,15 @@
         itemNum++;
     }
     
-                
 }
+
+-(IBAction)unwindSegueFromCitySelect:(UIStoryboardSegue*)segue
+{
+    CityViewController *controller = [[segue.sourceViewController viewControllers] objectAtIndex:0];
+    self.selectedCity = controller.selectedCity;
+    
+}
+
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     [self filterContentForSearchText:searchString];

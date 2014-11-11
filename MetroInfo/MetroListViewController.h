@@ -8,20 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "MetroListTableView.h"
-#import "Mapkit/MapKit.h"
-#import "CoreLocation/CoreLocation.h"
+#import "BMapKit.h"
+#import "CityViewController.h"
+#import "City.h"
 
 @interface MetroListViewController : UIViewController
 <UITableViewDataSource, UITableViewDelegate,
-MKMapViewDelegate, CLLocationManagerDelegate,
-UISearchBarDelegate, UISearchDisplayDelegate>
+UISearchBarDelegate, UISearchDisplayDelegate,
+BMKMapViewDelegate,BMKLocationServiceDelegate>
 
 @property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
-@property (strong, nonatomic) IBOutlet MKMapView *metroMapView;
-@property (strong, nonatomic) CLLocationManager *metroLocationManager;
 
+@property (strong, nonatomic) BMKLocationService *locationService;
+@property (weak, nonatomic) IBOutlet UIView *mapView;
+
+@property (strong, nonatomic) IBOutlet BMKMapView *metroView;
 @property (weak, nonatomic) IBOutlet UISearchBar *metroSearchBar;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *metroSearchController;
-
+@property (nonatomic, retain) City *selectedCity;
 @end

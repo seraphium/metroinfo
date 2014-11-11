@@ -4,6 +4,35 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
+        <!--城市列表-->
+        <scene sceneID="CGz-Sz-qvU">
+            <objects>
+                <tableViewController title="城市列表" id="ZtC-I9-PvO" customClass="CityViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qd3-ZP-uru">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityViewTableCell" id="rvr-w8-dlm">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rvr-w8-dlm" id="bu6-Cp-LcG">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZtC-I9-PvO" id="pnC-Cq-fVa"/>
+                            <outlet property="delegate" destination="ZtC-I9-PvO" id="8op-j7-62f"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="城市列表" id="ha3-8q-Ikc"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CUa-9G-nvi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1663" y="-385"/>
+        </scene>
         <!--西安地铁线路-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -12,10 +41,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" id="GP6-nr-gNz">
-                                <rect key="frame" x="0.0" y="65" width="320" height="232"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xlG-R7-Y5p" customClass="MetroListTableView">
                                 <rect key="frame" x="0.0" y="233" width="320" height="335"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -48,6 +73,11 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" id="lzf-ZA-aVe">
+                                <rect key="frame" x="0.0" y="65" width="320" height="232"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -56,13 +86,14 @@
                         <barButtonItem key="leftBarButtonItem" title="城市" id="1bC-Sx-M62">
                             <connections>
                                 <action selector="didSelectCityBackBtn:" destination="vXZ-lx-hvc" id="hbN-TW-4f3"/>
+                                <segue destination="MBS-45-nan" kind="modal" modalTransitionStyle="flipHorizontal" id="8c1-4w-fpr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cityButton" destination="1bC-Sx-M62" id="jaY-2W-lpV"/>
-                        <outlet property="metroMapView" destination="GP6-nr-gNz" id="U5i-iz-NmZ"/>
+                        <outlet property="mapView" destination="lzf-ZA-aVe" id="rVP-zg-Ree"/>
                         <outlet property="metroSearchBar" destination="uER-tZ-M5W" id="FKe-uG-ClA"/>
                         <outlet property="metroSearchController" destination="eYf-ex-vks" id="RtQ-ZC-WnQ"/>
                         <outlet property="searchDisplayController" destination="eYf-ex-vks" id="ZMl-c4-RMW"/>
@@ -71,6 +102,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <exit id="RlA-U4-N0q" userLabel="Exit" sceneMemberID="exit"/>
                 <searchDisplayController searchResultsTitle="搜索结果" id="eYf-ex-vks">
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
@@ -227,6 +259,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wSE-W5-8oY" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="1mu-Wh-VNx"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fQH-B5-4BP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -239,6 +272,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P2X-Oq-bZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="129" y="319"/>
+        </scene>
+        <!--cityNavigator-->
+        <scene sceneID="6Rd-kt-Tr4">
+            <objects>
+                <navigationController title="cityNavigator" automaticallyAdjustsScrollViewInsets="NO" id="MBS-45-nan" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sAz-N7-56L">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ZtC-I9-PvO" kind="relationship" relationship="rootViewController" id="2H5-LF-bJ3"/>
+                        <segue destination="RlA-U4-N0q" kind="unwind" identifier="backCitySegue" unwindAction="unwindSegueFromCitySelect:" id="hQJ-Be-3p5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j01-7u-uJg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1139" y="-377"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
