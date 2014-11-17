@@ -37,27 +37,29 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    self.cityButton.title = @"城市";
-    [self initialData];
-    self.isStation = NO;
-    self.showArray = [self.metroArray valueForKey:@"lineName"];
-    self.tvMetroListView.delegate = self;
-    self.tvMetroListView.dataSource = self;
-    [self.tvMetroListView reloadData];
-    
-    self.metroSearchBar.delegate = self;
-    
-    //initialize baidu map and location service
-    self.isLocateAvail = NO;
-    self.locationService = [[BMKLocationService alloc] init];
-    [self.locationService startUserLocationService];
-    self.metroView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 232)];
 
-    self.metroView.showsUserLocation = NO;
-    self.metroView.userTrackingMode = BMKUserTrackingModeNone;
-    self.metroView.showsUserLocation = YES;
+        self.cityButton.title = @"城市";
+        [self initialData];
+        self.isStation = NO;
+        self.showArray = [self.metroArray valueForKey:@"lineName"];
+        self.tvMetroListView.delegate = self;
+        self.tvMetroListView.dataSource = self;
+        [self.tvMetroListView reloadData];
+        
+        self.metroSearchBar.delegate = self;
+        
+        //initialize baidu map and location service
+        self.isLocateAvail = NO;
+        self.locationService = [[BMKLocationService alloc] init];
+        [self.locationService startUserLocationService];
+        self.metroView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 232)];
+
+        self.metroView.showsUserLocation = NO;
+        self.metroView.userTrackingMode = BMKUserTrackingModeNone;
+        self.metroView.showsUserLocation = YES;
+        
+        [self.mapView addSubview:self.metroView];
     
-    [self.mapView addSubview:self.metroView];
 
 }
 
@@ -72,6 +74,10 @@
     self.curLocation = userLocation;
     [self.locationService stopUserLocationService];
     [self.metroView updateLocationData:userLocation];
+   // [self.metroView setCenterCoordinate:userLocation.location.coordinate animated:YES];
+
+    [self.metroView setRegion: BMKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 5000, 5000)animated:YES];
+    
     
 }
 
@@ -80,6 +86,29 @@
     [self.metroView viewWillAppear];
     self.metroView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     self.locationService.delegate = self;
+    NSString* city = [[NSUserDefaults standardUserDefaults] stringForKey:@"city"];
+    if (!city && !self.selectedCity)
+    {
+        
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        UIViewController *myView = [story instantiateViewControllerWithIdentifier:@"cityNavigator"];
+        [self presentViewController:myView animated:YES completion:nil];
+    }
+    else
+    {   if (!self.selectedCity)
+        {
+            City * newCity = [[City alloc] init];
+            newCity.cityName = city;
+            self.selectedCity = newCity;
+        }
+        else
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:self.selectedCity.cityName forKey:@"city"];
+        }
+        
+    }
+    
+    
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -91,7 +120,11 @@
 }
 -(void)viewDidAppear:(BOOL)animated
 {
-  
+    if (self.selectedCity)
+    {
+        NSString *title = [[NSString alloc] initWithFormat:@"%@%@", self.selectedCity.cityName, @"地铁线路"];
+        self.navigationItem.title = title;
+    }
 }
 
 -(void)Alert:(NSString *)msg
@@ -103,7 +136,7 @@
 
 -(void)initialData
 {
-    self.selectedCity = [[City alloc] init];
+
     self.metroArray = [NSMutableArray arrayWithCapacity:50];
     self.searchedArray = [NSMutableArray arrayWithCapacity:50];
 //load data from sqlte db
@@ -275,7 +308,9 @@
     }
     else
     {
-
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        UIViewController *myView = [story instantiateViewControllerWithIdentifier:@"cityNavigator"];
+        [self presentViewController:myView animated:YES completion:nil];
     }
 }
 
@@ -309,8 +344,7 @@
 {
     CityViewController *controller = [[segue.sourceViewController viewControllers] objectAtIndex:0];
     self.selectedCity = controller.selectedCity;
-    
-}
+  }
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
@@ -334,6 +368,11 @@
 
 }
 
-
-
+-(IBAction)unwindSegueFromMetroInfo:(UIStoryboardSegue*)segue
+{
+    if (self.isStation)
+    {
+        self.cityButton.title = @"后退";
+    }
+}
 @end

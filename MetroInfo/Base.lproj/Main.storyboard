@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="wSE-W5-8oY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="wSE-W5-8oY">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
@@ -7,7 +7,7 @@
         <!--城市列表-->
         <scene sceneID="CGz-Sz-qvU">
             <objects>
-                <tableViewController title="城市列表" id="ZtC-I9-PvO" customClass="CityViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="cityVC" title="城市列表" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZtC-I9-PvO" customClass="CityViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qd3-ZP-uru">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -33,10 +33,10 @@
             </objects>
             <point key="canvasLocation" x="1663" y="-385"/>
         </scene>
-        <!--西安地铁线路-->
+        <!--Metro List View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="MetroListViewController" sceneMemberID="viewController">
+                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="vXZ-lx-hvc" customClass="MetroListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -82,11 +82,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="西安地铁线路" id="Dgt-zc-FYp">
+                    <navigationItem key="navigationItem" id="Dgt-zc-FYp">
                         <barButtonItem key="leftBarButtonItem" title="城市" id="1bC-Sx-M62">
                             <connections>
                                 <action selector="didSelectCityBackBtn:" destination="vXZ-lx-hvc" id="hbN-TW-4f3"/>
-                                <segue destination="MBS-45-nan" kind="modal" modalTransitionStyle="flipHorizontal" id="8c1-4w-fpr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -98,7 +97,6 @@
                         <outlet property="metroSearchController" destination="eYf-ex-vks" id="RtQ-ZC-WnQ"/>
                         <outlet property="searchDisplayController" destination="eYf-ex-vks" id="ZMl-c4-RMW"/>
                         <outlet property="tvMetroListView" destination="xlG-R7-Y5p" id="BVL-wU-nOE"/>
-                        <segue destination="zVC-Rg-i4d" kind="unwind" unwindAction="unwindToList:" id="KV5-mJ-4DY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -214,10 +212,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="站点信息" id="7iO-Ft-JTV">
-                        <barButtonItem key="backBarButtonItem" title="回退" id="zz6-ZH-gGC"/>
                         <barButtonItem key="leftBarButtonItem" title="后退" id="ENM-Td-1SH">
                             <connections>
-                                <segue destination="zVC-Rg-i4d" kind="unwind" unwindAction="unwindToList:" id="7hE-sJ-ihQ"/>
+                                <segue destination="RlA-U4-N0q" kind="unwind" unwindAction="unwindSegueFromMetroInfo:" id="COe-g9-9SI"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -231,7 +228,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dB7-gX-rGO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="zVC-Rg-i4d" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1671" y="325"/>
         </scene>
@@ -276,7 +272,7 @@
         <!--cityNavigator-->
         <scene sceneID="6Rd-kt-Tr4">
             <objects>
-                <navigationController title="cityNavigator" automaticallyAdjustsScrollViewInsets="NO" id="MBS-45-nan" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="cityNavigator" title="cityNavigator" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MBS-45-nan" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sAz-N7-56L">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

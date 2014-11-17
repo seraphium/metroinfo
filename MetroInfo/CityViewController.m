@@ -67,8 +67,16 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    self.selectedCity = [self.cityArray objectAtIndex:indexPath.row - 1];
-    [self.parentViewController performSegueWithIdentifier:@"backCitySegue" sender:self.parentViewController];
+    if (indexPath.row == 0)
+    {
+        
+        
+    }
+    else
+    {
+        self.selectedCity = [self.cityArray objectAtIndex:indexPath.row - 1];
+        [self.parentViewController performSegueWithIdentifier:@"backCitySegue" sender:self.parentViewController];
+    }
 }
 
 
