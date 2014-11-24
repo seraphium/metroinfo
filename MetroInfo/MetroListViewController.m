@@ -19,6 +19,8 @@
 @interface MetroListViewController()
 {
     sqlite3 *db;
+    BMKPoiSearch *_searcher;
+    NSString *_uid;
 }
 @property (nonatomic, retain) NSMutableArray * metroArray;
 @property (nonatomic, retain) NSMutableArray * showArray;
@@ -38,55 +40,117 @@
 {
     [super viewDidLoad];
 
-        self.cityButton.title = @"城市";
-        [self initialData];
-        self.isStation = NO;
-        self.showArray = [self.metroArray valueForKey:@"lineName"];
-        self.tvMetroListView.delegate = self;
-        self.tvMetroListView.dataSource = self;
-        [self.tvMetroListView reloadData];
-        
-        self.metroSearchBar.delegate = self;
-        
-        //initialize baidu map and location service
-        self.isLocateAvail = NO;
-        self.locationService = [[BMKLocationService alloc] init];
-        [self.locationService startUserLocationService];
-        self.metroView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 232)];
-
-        self.metroView.showsUserLocation = NO;
-        self.metroView.userTrackingMode = BMKUserTrackingModeNone;
-        self.metroView.showsUserLocation = YES;
-        
-        [self.mapView addSubview:self.metroView];
+    self.cityButton.title = @"城市";
+    [self initialData];
+    self.isStation = NO;
+    self.showArray = [self.metroArray valueForKey:@"lineName"];
+    self.tvMetroListView.delegate = self;
+    self.tvMetroListView.dataSource = self;
+    [self.tvMetroListView reloadData];
     
+    self.metroSearchBar.delegate = self;
+    
+    //initialize baidu map and location service
+    self.isLocateAvail = NO;
+    self.locationService = [[BMKLocationService alloc] init];
+    [self.locationService startUserLocationService];
+    self.bmkMapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 232)];
 
+    self.bmkMapView.showsUserLocation = NO;
+    self.bmkMapView.userTrackingMode = BMKUserTrackingModeNone;
+    self.bmkMapView.showsUserLocation = YES;
+    
+    [self.mapView addSubview:self.bmkMapView];
+    _searcher = [[BMKPoiSearch alloc] init];
+    _searcher.delegate = self;
+    
+    
 }
 
--(void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+-(void)onGetPoiDetailResult:(BMKPoiSearch *)searcher result:(BMKPoiDetailResult *)poiDetailResult errorCode:(BMKSearchErrorCode)errorCode
 {
-    
+    if (errorCode == BMK_SEARCH_NO_ERROR)
+    {
+        BMKPoiDetailResult* result = poiDetailResult;
+        
+    }
 }
 
+-(void)onGetPoiResult:(BMKPoiSearch *)searcher result:(BMKPoiResult *)poiResult errorCode:(BMKSearchErrorCode)errorCode
+{
+    if (errorCode == BMK_SEARCH_NO_ERROR)
+    {
+        NSArray *infos = [poiResult poiInfoList];
+        for (BMKPoiInfo *info in infos)
+        {
+            _uid = info.uid;
+            BMKPoiDetailSearchOption *option = [[BMKPoiDetailSearchOption alloc] init];
+            option.poiUid = _uid;
+            BOOL flag = [_searcher poiDetailSearch:option];
+            if (flag)
+            {
+                BMKMapPoint point1 = BMKMapPointForCoordinate(self.curLocation.location.coordinate);
+                BMKMapPoint point2 = BMKMapPointForCoordinate(info.pt);
+                CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
+                NSLog(@"distance of %@:%f", info.name, distance);
+            }
+            else
+            {
+                
+            }
+        }
+       
+      
+
+    }
+    else if (errorCode == BMK_SEARCH_AMBIGUOUS_KEYWORD)
+    {
+        NSLog(@"结果有歧义");
+    }
+    else
+    {
+        NSLog(@"未找到结果");
+    }
+}
+
+#pragma mark location updated
 -(void)didUpdateUserLocation:(BMKUserLocation *)userLocation
 {
     NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
     self.curLocation = userLocation;
     [self.locationService stopUserLocationService];
-    [self.metroView updateLocationData:userLocation];
-   // [self.metroView setCenterCoordinate:userLocation.location.coordinate animated:YES];
+    [self.bmkMapView updateLocationData:userLocation];
+  // [self.bmkMapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
 
-    [self.metroView setRegion: BMKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 5000, 5000)animated:YES];
+    [self.bmkMapView setRegion: BMKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 5000, 5000)animated:YES];
     
+    BMKNearbySearchOption *nearOption = [[BMKNearbySearchOption alloc] init];
+    nearOption.pageIndex = 0;
+    nearOption.pageCapacity = 10;
+    nearOption.radius = 1000;
+    nearOption.location = userLocation.location.coordinate;
+    nearOption.keyword = @"餐馆";
+    BOOL flag = [_searcher poiSearchNearBy:nearOption];
+    if (flag)
+    {
+        
+    }
+    else
+    {
+        
+    }
+    
+   
     
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.metroView viewWillAppear];
-    self.metroView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    [self.bmkMapView viewWillAppear];
+    self.bmkMapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     self.locationService.delegate = self;
     NSString* city = [[NSUserDefaults standardUserDefaults] stringForKey:@"city"];
+#pragma mark first time in
     if (!city && !self.selectedCity)
     {
         
@@ -113,9 +177,10 @@
 
 -(void) viewWillDisappear:(BOOL)animated
 {
-    [self.metroView viewWillDisappear];
-    self.metroView.delegate = nil;
+    [self.bmkMapView viewWillDisappear];
+    self.bmkMapView.delegate = nil;
     self.locationService.delegate = nil;
+    _searcher.delegate = nil;
     
 }
 -(void)viewDidAppear:(BOOL)animated
@@ -149,8 +214,7 @@
         [self Alert:@"数据库打开异常"];
         exit(-1);
     }
-   // NSString *sqlCreateTable = @"CREATE TABLE IF NOT EXISTS METROINFO (id INTEGER PRIMARY KEY AUTOINCREMENT,LINENAME TEXT, STATIONNAME TEXT, OPENDATE TIME_STAMP, CLOSEDATE TIME_STAMP)";
-    //NSMutableDictionary * lineMap = [[NSMutableDictionary alloc] initWithCapacity:50];
+    
     //get all the line names
     NSString *sqlQuery = [[NSString alloc] initWithFormat:@"select * from %@", TABLENAME];
     sqlite3_stmt *statement;
@@ -239,6 +303,7 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"metroLineTableCell" forIndexPath:indexPath];
         cell.textLabel.text = [self.showArray objectAtIndex:indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:@"icon_nav_bus.png"];
     }
 
     return cell;

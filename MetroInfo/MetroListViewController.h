@@ -15,15 +15,16 @@
 @interface MetroListViewController : UIViewController
 <UITableViewDataSource, UITableViewDelegate,
 UISearchBarDelegate, UISearchDisplayDelegate,
-BMKMapViewDelegate,BMKLocationServiceDelegate>
+BMKMapViewDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>
 
 @property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
 
 @property (strong, nonatomic) BMKLocationService *locationService;
 @property (weak, nonatomic) IBOutlet UIView *mapView;
+@property (weak, nonatomic) IBOutlet UIView *metroListView;
 
-@property (strong, nonatomic) IBOutlet BMKMapView *metroView;
+@property (strong, nonatomic) IBOutlet BMKMapView *bmkMapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *metroSearchBar;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *metroSearchController;
 @property (nonatomic, retain) City *selectedCity;
