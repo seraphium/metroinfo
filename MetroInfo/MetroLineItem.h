@@ -10,8 +10,9 @@
 #import "metroStation.h"
 
 @interface MetroLineItem : NSObject
+@property (nonatomic, assign) NSInteger lineId;
 @property (nonatomic, copy) NSString *lineName;
 @property (nonatomic, retain) NSMutableArray *stationArray;
--(instancetype)initWithName:(NSString*)lineName Stations:(NSMutableArray*)stationArray;
+-(instancetype)initWithName:(NSString*)lineName lineId:(NSInteger)line_id Stations:(NSMutableArray*)stationArray;
 -(void)addStation:(MetroStation *)station;
 @end

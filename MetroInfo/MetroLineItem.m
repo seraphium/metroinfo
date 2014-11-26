@@ -10,9 +10,10 @@
 #import "MetroStation.h"
 
 @implementation MetroLineItem
--(instancetype)initWithName:(NSString*)lineName Stations:(NSMutableArray*)stationArray
+-(instancetype)initWithName:(NSString*)lineName lineId:(NSInteger)line_id Stations:(NSMutableArray*)stationArray
 {
     self.lineName = lineName;
+    self.lineId = line_id;
     if (stationArray)
     {
         self.stationArray = stationArray;

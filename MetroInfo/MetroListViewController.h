@@ -20,6 +20,7 @@ BMKMapViewDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>
 @property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nearbyButton;
 @property (strong, nonatomic) BMKLocationService *locationService;
 @property (weak, nonatomic) IBOutlet UIView *mapView;
 @property (weak, nonatomic) IBOutlet UIView *metroListView;

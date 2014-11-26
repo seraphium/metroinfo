@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4B1E5D871A238A390019EC75 /* MetroListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1E5D861A238A390019EC75 /* MetroListView.m */; };
-		4B1E5D891A2396F50019EC75 /* icon_nav_bus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B1E5D881A2396F50019EC75 /* icon_nav_bus@2x.png */; };
 		4B228C071A0CFA8200C0D6B8 /* metroinfo.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4B228C061A0CFA8200C0D6B8 /* metroinfo.sqlite */; };
 		4B228C0A1A0D1FAF00C0D6B8 /* SearchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B228C091A0D1FAF00C0D6B8 /* SearchInfo.m */; };
 		4B2320B91A1256DC001771A1 /* CityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2320B81A1256DC001771A1 /* CityViewController.m */; };
@@ -20,13 +19,13 @@
 		4B5493F71A0E6AA7007D2FFF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5493F61A0E6AA7007D2FFF /* Security.framework */; };
 		4B5493F91A0E6AD1007D2FFF /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B5493F81A0E6AD1007D2FFF /* mapapi.bundle */; };
 		4B6CCCA21A1E59400024D514 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B6CCCA11A1E59400024D514 /* libbaidumapapi.a */; };
+		4B953F4B1A2646D900C0F308 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B953F4A1A2646D900C0F308 /* Launch Screen.xib */; };
 		4B9D6E221A09018D005AE160 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9D6E211A09018D005AE160 /* CoreLocation.framework */; };
 		4BBE11351A0531300092E63D /* MetroStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBE11341A0531300092E63D /* MetroStation.m */; };
 		4BCB02FD1A04E34300AC4BAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB02FC1A04E34300AC4BAF /* main.m */; };
 		4BCB03001A04E34300AC4BAF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB02FF1A04E34300AC4BAF /* AppDelegate.mm */; };
 		4BCB03061A04E34300AC4BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB03041A04E34300AC4BAF /* Main.storyboard */; };
 		4BCB03081A04E34300AC4BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB03071A04E34300AC4BAF /* Images.xcassets */; };
-		4BCB030B1A04E34300AC4BAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB03091A04E34300AC4BAF /* LaunchScreen.xib */; };
 		4BCB03251A04EBA000AC4BAF /* MetroListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03241A04EBA000AC4BAF /* MetroListTableView.m */; };
 		4BCB032E1A04ECF500AC4BAF /* MetroInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB032D1A04ECF500AC4BAF /* MetroInfoViewController.m */; };
 		4BCB03311A04EF7000AC4BAF /* MetroListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCB03301A04EF7000AC4BAF /* MetroListViewController.m */; };
@@ -37,7 +36,6 @@
 /* Begin PBXFileReference section */
 		4B1E5D851A238A390019EC75 /* MetroListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroListView.h; sourceTree = "<group>"; };
 		4B1E5D861A238A390019EC75 /* MetroListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroListView.m; sourceTree = "<group>"; };
-		4B1E5D881A2396F50019EC75 /* icon_nav_bus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_nav_bus@2x.png"; sourceTree = "<group>"; };
 		4B228C061A0CFA8200C0D6B8 /* metroinfo.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = metroinfo.sqlite; sourceTree = "<group>"; };
 		4B228C081A0D1FAF00C0D6B8 /* SearchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchInfo.h; sourceTree = "<group>"; };
 		4B228C091A0D1FAF00C0D6B8 /* SearchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchInfo.m; sourceTree = "<group>"; };
@@ -111,6 +109,7 @@
 		4B5493F61A0E6AA7007D2FFF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4B5493F81A0E6AD1007D2FFF /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		4B6CCCA11A1E59400024D514 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
+		4B953F4A1A2646D900C0F308 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		4B9D6E211A09018D005AE160 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4B9D6E231A090194005AE160 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4BBE11331A0531300092E63D /* MetroStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroStation.h; sourceTree = "<group>"; };
@@ -122,7 +121,6 @@
 		4BCB02FF1A04E34300AC4BAF /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		4BCB03051A04E34300AC4BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4BCB03071A04E34300AC4BAF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
-		4BCB030A1A04E34300AC4BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4BCB03151A04E34300AC4BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BCB03161A04E34300AC4BAF /* MetroInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetroInfoTests.m; sourceTree = "<group>"; };
 		4BCB03231A04EBA000AC4BAF /* MetroListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetroListTableView.h; path = ../MetroListTableView.h; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				4B228C061A0CFA8200C0D6B8 /* metroinfo.sqlite */,
-				4B1E5D881A2396F50019EC75 /* icon_nav_bus@2x.png */,
 				4BCB03071A04E34300AC4BAF /* Images.xcassets */,
 			);
 			path = Resources;
@@ -300,9 +297,9 @@
 			children = (
 				4BCB02FB1A04E34300AC4BAF /* Info.plist */,
 				4BCB03041A04E34300AC4BAF /* Main.storyboard */,
-				4BCB03091A04E34300AC4BAF /* LaunchScreen.xib */,
 				4B5493F81A0E6AD1007D2FFF /* mapapi.bundle */,
 				4BCB02FC1A04E34300AC4BAF /* main.m */,
+				4B953F4A1A2646D900C0F308 /* Launch Screen.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -382,12 +379,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B1E5D891A2396F50019EC75 /* icon_nav_bus@2x.png in Resources */,
 				4BCB03061A04E34300AC4BAF /* Main.storyboard in Resources */,
 				4B5493F91A0E6AD1007D2FFF /* mapapi.bundle in Resources */,
-				4BCB030B1A04E34300AC4BAF /* LaunchScreen.xib in Resources */,
 				4BCB03081A04E34300AC4BAF /* Images.xcassets in Resources */,
 				4B228C071A0CFA8200C0D6B8 /* metroinfo.sqlite in Resources */,
+				4B953F4B1A2646D900C0F308 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,14 +417,6 @@
 				4BCB03051A04E34300AC4BAF /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4BCB03091A04E34300AC4BAF /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4BCB030A1A04E34300AC4BAF /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

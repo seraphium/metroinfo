@@ -21,9 +21,12 @@
     sqlite3 *db;
     BMKPoiSearch *_searcher;
     NSString *_uid;
+    BOOL isAnnotation;
 }
 @property (nonatomic, retain) NSMutableArray * metroArray;
 @property (nonatomic, retain) NSMutableArray * showArray;
+@property (nonatomic, retain) NSMutableArray * poiArray;
+@property (nonatomic, retain) NSMutableArray * annotationArray;
 @property (nonatomic) BOOL isStation;
 @property (nonatomic, assign) int iSelectedLine;
 @property (nonatomic, assign) int iSelectedStation;
@@ -43,7 +46,7 @@
     self.cityButton.title = @"城市";
     [self initialData];
     self.isStation = NO;
-    self.showArray = [self.metroArray valueForKey:@"lineName"];
+    self.showArray = self.metroArray;
     self.tvMetroListView.delegate = self;
     self.tvMetroListView.dataSource = self;
     [self.tvMetroListView reloadData];
@@ -53,8 +56,9 @@
     //initialize baidu map and location service
     self.isLocateAvail = NO;
     self.locationService = [[BMKLocationService alloc] init];
+    
     [self.locationService startUserLocationService];
-    self.bmkMapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 232)];
+    self.bmkMapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 376)];
 
     self.bmkMapView.showsUserLocation = NO;
     self.bmkMapView.userTrackingMode = BMKUserTrackingModeNone;
@@ -66,79 +70,15 @@
     
     
 }
-
--(void)onGetPoiDetailResult:(BMKPoiSearch *)searcher result:(BMKPoiDetailResult *)poiDetailResult errorCode:(BMKSearchErrorCode)errorCode
-{
-    if (errorCode == BMK_SEARCH_NO_ERROR)
-    {
-        BMKPoiDetailResult* result = poiDetailResult;
-        
-    }
-}
-
--(void)onGetPoiResult:(BMKPoiSearch *)searcher result:(BMKPoiResult *)poiResult errorCode:(BMKSearchErrorCode)errorCode
-{
-    if (errorCode == BMK_SEARCH_NO_ERROR)
-    {
-        NSArray *infos = [poiResult poiInfoList];
-        for (BMKPoiInfo *info in infos)
-        {
-            _uid = info.uid;
-            BMKPoiDetailSearchOption *option = [[BMKPoiDetailSearchOption alloc] init];
-            option.poiUid = _uid;
-            BOOL flag = [_searcher poiDetailSearch:option];
-            if (flag)
-            {
-                BMKMapPoint point1 = BMKMapPointForCoordinate(self.curLocation.location.coordinate);
-                BMKMapPoint point2 = BMKMapPointForCoordinate(info.pt);
-                CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
-                NSLog(@"distance of %@:%f", info.name, distance);
-            }
-            else
-            {
-                
-            }
-        }
-       
-      
-
-    }
-    else if (errorCode == BMK_SEARCH_AMBIGUOUS_KEYWORD)
-    {
-        NSLog(@"结果有歧义");
-    }
-    else
-    {
-        NSLog(@"未找到结果");
-    }
-}
-
 #pragma mark location updated
 -(void)didUpdateUserLocation:(BMKUserLocation *)userLocation
 {
     NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
     self.curLocation = userLocation;
-    [self.locationService stopUserLocationService];
     [self.bmkMapView updateLocationData:userLocation];
   // [self.bmkMapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
 
-    [self.bmkMapView setRegion: BMKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 5000, 5000)animated:YES];
-    
-    BMKNearbySearchOption *nearOption = [[BMKNearbySearchOption alloc] init];
-    nearOption.pageIndex = 0;
-    nearOption.pageCapacity = 10;
-    nearOption.radius = 1000;
-    nearOption.location = userLocation.location.coordinate;
-    nearOption.keyword = @"餐馆";
-    BOOL flag = [_searcher poiSearchNearBy:nearOption];
-    if (flag)
-    {
-        
-    }
-    else
-    {
-        
-    }
+    [self.bmkMapView setRegion: BMKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 1000, 1000)animated:YES];
     
    
     
@@ -171,9 +111,9 @@
         }
         
     }
-    
-    
+
 }
+
 
 -(void) viewWillDisappear:(BOOL)animated
 {
@@ -199,6 +139,7 @@
     [alert show];
 }
 
+#pragma mark data initialization
 -(void)initialData
 {
 
@@ -241,7 +182,7 @@
          NSString *closeDate1 = [[NSString alloc] initWithUTF8String:(const char*)close1];
          const unsigned char *close2 = sqlite3_column_text(statement, 6);
          NSString *closeDate2 = [[NSString alloc] initWithUTF8String:(const char*)close2];
-         
+         int lineId = sqlite3_column_int(statement, 7);
          MetroStation* stationItem = [[MetroStation alloc] initWithName:stationName openDate1:openDate1 closeDate1:closeDate1 openDate2:openDate2 closeDate2:closeDate2];
          
          //if not exists ,create new array
@@ -252,7 +193,7 @@
          }];
         if (indexOfLine == NSNotFound)
         {
-            MetroLineItem *line = [[MetroLineItem alloc] initWithName:lineName Stations:nil];
+            MetroLineItem *line = [[MetroLineItem alloc] initWithName:lineName lineId:lineId Stations:nil];
             [line addStation:stationItem];
             [self.metroArray addObject:line];
         }
@@ -267,6 +208,9 @@
     
     sqlite3_close(db);
     
+    self.poiArray = [[NSMutableArray alloc] initWithCapacity:50];
+    isAnnotation = NO;
+    self.annotationArray = [[NSMutableArray alloc] initWithCapacity:50];
 }
 
 
@@ -302,8 +246,19 @@
     else
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"metroLineTableCell" forIndexPath:indexPath];
-        cell.textLabel.text = [self.showArray objectAtIndex:indexPath.row];
-        cell.imageView.image = [UIImage imageNamed:@"icon_nav_bus.png"];
+        if (self.isStation)
+        {
+            cell.textLabel.text = [self.showArray objectAtIndex:indexPath.row];
+            NSString *imageString = [NSString stringWithFormat:@"icon_metro_line%d", self.iSelectedLine];
+            cell.imageView.image = [UIImage imageNamed:imageString];
+        }
+        else
+        {
+            MetroLineItem *item = [self.showArray objectAtIndex:indexPath.row];
+            cell.textLabel.text = item.lineName;
+            NSString *imageString = [NSString stringWithFormat:@"icon_metro_line%d", (int)item.lineId];
+            cell.imageView.image = [UIImage imageNamed:imageString];
+        }
     }
 
     return cell;
@@ -321,8 +276,13 @@
         UINavigationController *navigationController = segue.destinationViewController;
         
         MetroInfoViewController *vcMetroInfoController = [navigationController.viewControllers objectAtIndex:0];
-
-        MetroLineItem *item = [self.metroArray objectAtIndex:self.iSelectedLine];
+    
+        NSUInteger indexOfLine = [self.metroArray indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop)
+                                  {
+                                      MetroLineItem *item = (MetroLineItem*)obj;
+                                      return item.lineId == self.iSelectedLine;
+                                  }];
+        MetroLineItem *item = [self.metroArray objectAtIndex:indexOfLine];
         MetroStation *station = [item.stationArray objectAtIndex:self.iSelectedStation];
 
         vcMetroInfoController.lineName = item.lineName;
@@ -334,6 +294,7 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    //select the result row
     if ([tableView isEqual:self.metroSearchController.searchResultsTableView])
     {
         SearchInfo *info = [self.searchedArray objectAtIndex:indexPath.row];
@@ -346,11 +307,13 @@
     {
         if (!self.isStation)
         {
-            NSMutableArray* array = [[self.metroArray objectAtIndex:indexPath.row] stationArray];
+            MetroLineItem *item = [self.metroArray objectAtIndex:indexPath.row];
+            NSMutableArray* array = [item stationArray];
             self.showArray = [array valueForKey:@"stationName"];
-            [self.tvMetroListView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
             self.isStation = YES;
-            self.iSelectedLine = indexPath.row;
+            self.iSelectedLine = item.lineId;
+            [self.tvMetroListView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+
             self.cityButton.title = @"后退";
         }
         else
@@ -366,9 +329,9 @@
     
     if (self.isStation)
     {
-         self.showArray = [self.metroArray valueForKey:@"lineName"];
-        [self.tvMetroListView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
+        self.showArray = self.metroArray;
         self.isStation = NO;
+        [self.tvMetroListView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
         self.cityButton.title = @"城市";
     }
     else
@@ -384,7 +347,7 @@
 - (void)filterContentForSearchText:(NSString*)searchText
 {
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd]%@", searchText];
-    int itemNum = 0;
+
     for (MetroLineItem *item in self.metroArray)
     {
         int stationNum = 0;
@@ -394,13 +357,13 @@
             {
                 SearchInfo *info = [[SearchInfo alloc] init];
                 info.mixedString = [NSString stringWithFormat:@"%@ - %@", item.lineName, station.stationName];
-                info.lineNum = itemNum;
+                info.lineNum = item.lineId;
                 info.stationNum = stationNum;
                 [self.searchedArray addObject:info];
             }
             stationNum++;
         }
-        itemNum++;
+
     }
     
 }
@@ -440,4 +403,110 @@
         self.cityButton.title = @"后退";
     }
 }
+
+#pragma mark annotation
+
+-(void)onGetPoiDetailResult:(BMKPoiSearch *)searcher result:(BMKPoiDetailResult *)poiDetailResult errorCode:(BMKSearchErrorCode)errorCode
+{
+    if (errorCode == BMK_SEARCH_NO_ERROR)
+    {
+        BMKPoiDetailResult* result = poiDetailResult;
+        
+    }
+}
+
+-(void)onGetPoiResult:(BMKPoiSearch *)searcher result:(BMKPoiResult *)poiResult errorCode:(BMKSearchErrorCode)errorCode
+{
+    if (errorCode == BMK_SEARCH_NO_ERROR)
+    {
+        NSArray *infos = [poiResult poiInfoList];
+        self.poiArray = infos;
+        
+        for (BMKPoiInfo *info in infos)
+        {
+            BMKPointAnnotation *annotation = [[BMKPointAnnotation alloc] init];
+            annotation.coordinate = info.pt;
+            annotation.title = info.name;
+            [self.bmkMapView addAnnotation:annotation];
+            [self.annotationArray addObject:annotation];
+            _uid = info.uid;
+            BMKPoiDetailSearchOption *option = [[BMKPoiDetailSearchOption alloc] init];
+            option.poiUid = _uid;
+            BOOL flag = [_searcher poiDetailSearch:option];
+            if (flag)
+            {
+                BMKMapPoint point1 = BMKMapPointForCoordinate(self.curLocation.location.coordinate);
+                BMKMapPoint point2 = BMKMapPointForCoordinate(info.pt);
+                CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
+                NSLog(@"distance of %@:%f", info.name, distance);
+            }
+            else
+            {
+                
+            }
+        }
+        
+        
+        
+    }
+    else if (errorCode == BMK_SEARCH_AMBIGUOUS_KEYWORD)
+    {
+        NSLog(@"结果有歧义");
+    }
+    else
+    {
+        NSLog(@"未找到结果");
+    }
+}
+
+
+- (BMKAnnotationView *)_mapView:(BMKMapView *)_mapView viewForAnnotation:(id <BMKAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
+        BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
+        newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
+        return newAnnotationView;
+    }
+    return nil;
+}
+
+- (IBAction)btnSearchNearby:(id)sender
+{
+    if (!isAnnotation)
+    {
+        [self.poiArray removeAllObjects];
+        BMKNearbySearchOption *nearOption = [[BMKNearbySearchOption alloc] init];
+        nearOption.pageIndex = 0;
+        nearOption.pageCapacity = 10;
+        nearOption.radius = 1000;
+        nearOption.location = self.curLocation.location.coordinate;
+        nearOption.keyword = @"餐馆";
+        BOOL flag = [_searcher poiSearchNearBy:nearOption];
+        if (flag)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        self.nearbyButton.title = @"清除";
+        isAnnotation = YES;
+    }
+    else
+    {
+        [self.poiArray removeAllObjects];
+
+        if ([self.annotationArray count] > 0)
+        {
+                [self.bmkMapView removeAnnotations:self.annotationArray];
+        }
+        self.nearbyButton.title = @"附近";
+        isAnnotation = NO;
+
+    }
+
+  }
+
 @end

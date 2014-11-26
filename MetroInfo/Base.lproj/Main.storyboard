@@ -42,12 +42,12 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="lzf-ZA-aVe">
-                                <rect key="frame" x="0.0" y="65" width="320" height="232"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="376"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="5om-TX-LXP" customClass="MetroListView">
-                                <rect key="frame" x="0.0" y="295" width="320" height="273"/>
+                                <rect key="frame" x="0.0" y="440" width="320" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xlG-R7-Y5p" customClass="MetroListTableView">
@@ -95,7 +95,11 @@
                                 <action selector="didSelectCityBackBtn:" destination="vXZ-lx-hvc" id="hbN-TW-4f3"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="定位" id="xTO-X2-WqK"/>
+                        <barButtonItem key="rightBarButtonItem" title="附近" id="xTO-X2-WqK">
+                            <connections>
+                                <action selector="btnSearchNearby:" destination="vXZ-lx-hvc" id="itL-fg-RdW"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -104,6 +108,7 @@
                         <outlet property="metroListView" destination="5om-TX-LXP" id="Hh0-JC-pWr"/>
                         <outlet property="metroSearchBar" destination="uER-tZ-M5W" id="FKe-uG-ClA"/>
                         <outlet property="metroSearchController" destination="eYf-ex-vks" id="RtQ-ZC-WnQ"/>
+                        <outlet property="nearbyButton" destination="xTO-X2-WqK" id="gdB-F8-sBG"/>
                         <outlet property="searchDisplayController" destination="eYf-ex-vks" id="ZMl-c4-RMW"/>
                         <outlet property="tvMetroListView" destination="xlG-R7-Y5p" id="BVL-wU-nOE"/>
                     </connections>
