@@ -11,19 +11,20 @@
 #import "BMapKit.h"
 #import "CityViewController.h"
 #import "City.h"
-
+#import "SidebarViewController.h"
+#import "MetroListView.h"
 @interface MetroListViewController : UIViewController
 <UITableViewDataSource, UITableViewDelegate,
 UISearchBarDelegate, UISearchDisplayDelegate,
 BMKMapViewDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>
 
+@property (strong, nonatomic) IBOutlet MetroListView *metroListView;
 @property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *nearbyButton;
 @property (strong, nonatomic) BMKLocationService *locationService;
 @property (weak, nonatomic) IBOutlet UIView *mapView;
-@property (weak, nonatomic) IBOutlet UIView *metroListView;
 
 @property (strong, nonatomic) IBOutlet BMKMapView *bmkMapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *metroSearchBar;

@@ -18,11 +18,14 @@
 
 @interface MetroListViewController()
 {
+    
     sqlite3 *db;
     BMKPoiSearch *_searcher;
     NSString *_uid;
     BOOL isAnnotation;
 }
+@property (nonatomic, retain) SidebarViewController* sidebarVC;
+
 @property (nonatomic, retain) NSMutableArray * metroArray;
 @property (nonatomic, retain) NSMutableArray * showArray;
 @property (nonatomic, retain) NSMutableArray * poiArray;
@@ -42,7 +45,6 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-
     self.cityButton.title = @"城市";
     [self initialData];
     self.isStation = NO;
@@ -53,6 +55,17 @@
     
     self.metroSearchBar.delegate = self;
     
+#pragma mark initialize side bar
+    
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+    [panGesture delaysTouchesBegan];
+    [self.view addGestureRecognizer:panGesture];
+    
+    self.sidebarVC = [[SidebarViewController alloc] init];
+    [self.sidebarVC setBgRGB:0x000000];
+   // [self.view addSubview:self.sidebarVC.view];
+    self.sidebarVC.view.frame  = self.view.bounds;
+    [self.navigationController.view addSubview:self.sidebarVC.view];
     //initialize baidu map and location service
     self.isLocateAvail = NO;
     self.locationService = [[BMKLocationService alloc] init];
@@ -90,7 +103,7 @@
     self.bmkMapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     self.locationService.delegate = self;
     NSString* city = [[NSUserDefaults standardUserDefaults] stringForKey:@"city"];
-#pragma mark first time in
+// first time in
     if (!city && !self.selectedCity)
     {
         
@@ -231,6 +244,13 @@
         return [self.showArray count];
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
@@ -336,9 +356,10 @@
     }
     else
     {
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        UIViewController *myView = [story instantiateViewControllerWithIdentifier:@"cityNavigator"];
-        [self presentViewController:myView animated:YES completion:nil];
+       // UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        ///UIViewController *myView = [story instantiateViewControllerWithIdentifier:@"cityNavigator"];
+        //  [self presentViewController:myView animated:YES completion:nil];
+        [self.sidebarVC showHideSidebar];
     }
 }
 
@@ -508,5 +529,17 @@
     }
 
   }
+
+- (void)panDetected:(UIPanGestureRecognizer*)recoginzer
+{
+    //only handle gesture while closing the side bar and ignore it while opening
+    if ([self.sidebarVC isSidebarShown])
+    {
+        [self.sidebarVC panDetected:recoginzer];
+    }
+
+    
+}
+
 
 @end

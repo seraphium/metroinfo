@@ -19,6 +19,8 @@
 		4B5493F71A0E6AA7007D2FFF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5493F61A0E6AA7007D2FFF /* Security.framework */; };
 		4B5493F91A0E6AD1007D2FFF /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B5493F81A0E6AD1007D2FFF /* mapapi.bundle */; };
 		4B6CCCA21A1E59400024D514 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B6CCCA11A1E59400024D514 /* libbaidumapapi.a */; };
+		4B8276A01A2789A7001D5408 /* LLBlurSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B82769D1A2789A7001D5408 /* LLBlurSidebar.m */; };
+		4B8276A11A2789A7001D5408 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B82769F1A2789A7001D5408 /* SidebarViewController.m */; };
 		4B953F4B1A2646D900C0F308 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B953F4A1A2646D900C0F308 /* Launch Screen.xib */; };
 		4B9D6E221A09018D005AE160 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9D6E211A09018D005AE160 /* CoreLocation.framework */; };
 		4BBE11351A0531300092E63D /* MetroStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBE11341A0531300092E63D /* MetroStation.m */; };
@@ -109,6 +111,10 @@
 		4B5493F61A0E6AA7007D2FFF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4B5493F81A0E6AD1007D2FFF /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		4B6CCCA11A1E59400024D514 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
+		4B82769C1A2789A7001D5408 /* LLBlurSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLBlurSidebar.h; sourceTree = "<group>"; };
+		4B82769D1A2789A7001D5408 /* LLBlurSidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLBlurSidebar.m; sourceTree = "<group>"; };
+		4B82769E1A2789A7001D5408 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
+		4B82769F1A2789A7001D5408 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
 		4B953F4A1A2646D900C0F308 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		4B9D6E211A09018D005AE160 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4B9D6E231A090194005AE160 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -231,8 +237,11 @@
 		4B5493FA1A0E7796007D2FFF /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4B82769B1A2789A7001D5408 /* LLBlurSidebar */,
 				4BCB02FE1A04E34300AC4BAF /* AppDelegate.h */,
 				4BCB02FF1A04E34300AC4BAF /* AppDelegate.mm */,
+				4B82769E1A2789A7001D5408 /* SidebarViewController.h */,
+				4B82769F1A2789A7001D5408 /* SidebarViewController.m */,
 				4B2320BA1A125847001771A1 /* City.h */,
 				4B2320BB1A125847001771A1 /* City.m */,
 				4B2320B71A1256DC001771A1 /* CityViewController.h */,
@@ -253,6 +262,15 @@
 				4B1E5D861A238A390019EC75 /* MetroListView.m */,
 			);
 			name = src;
+			sourceTree = "<group>";
+		};
+		4B82769B1A2789A7001D5408 /* LLBlurSidebar */ = {
+			isa = PBXGroup;
+			children = (
+				4B82769C1A2789A7001D5408 /* LLBlurSidebar.h */,
+				4B82769D1A2789A7001D5408 /* LLBlurSidebar.m */,
+			);
+			path = LLBlurSidebar;
 			sourceTree = "<group>";
 		};
 		4BCB02EE1A04E34300AC4BAF = {
@@ -394,7 +412,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B8276A11A2789A7001D5408 /* SidebarViewController.m in Sources */,
 				4B2320BC1A125847001771A1 /* City.m in Sources */,
+				4B8276A01A2789A7001D5408 /* LLBlurSidebar.m in Sources */,
 				4BCB03371A04F0DA00AC4BAF /* MetroLineItem.m in Sources */,
 				4B228C0A1A0D1FAF00C0D6B8 /* SearchInfo.m in Sources */,
 				4BCB03251A04EBA000AC4BAF /* MetroListTableView.m in Sources */,

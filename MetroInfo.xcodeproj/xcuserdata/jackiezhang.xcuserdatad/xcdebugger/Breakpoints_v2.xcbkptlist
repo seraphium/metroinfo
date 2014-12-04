@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MetroInfo/MetroListViewController.m"
-            timestampString = "438713173.931096"
+            timestampString = "438974019.367634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MetroInfo/MetroListViewController.m"
-            timestampString = "438714295.306897"
+            timestampString = "438974019.367634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "476"
-            endingLineNumber = "476"
+            startingLineNumber = "497"
+            endingLineNumber = "497"
             landmarkName = "-btnSearchNearby:"
             landmarkType = "5">
          </BreakpointContent>
@@ -52,12 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MetroInfo/MetroListViewController.m"
-            timestampString = "438714319.465635"
+            timestampString = "438974019.367634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "420"
-            endingLineNumber = "420"
-            landmarkName = "-onGetPoiResult:result:errorCode:"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
+            landmarkName = "-panDetected:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
