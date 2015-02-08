@@ -13,21 +13,23 @@
 #import "City.h"
 #import "SidebarViewController.h"
 #import "MetroListView.h"
-@interface MetroListViewController : UIViewController
-<UITableViewDataSource, UITableViewDelegate,
-UISearchBarDelegate, UISearchDisplayDelegate,
-BMKMapViewDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>
+@interface MetroListViewController
+    : UIViewController <UITableViewDataSource, UITableViewDelegate,
+                        UISearchBarDelegate, UISearchDisplayDelegate,
+                        BMKMapViewDelegate, BMKLocationServiceDelegate,
+                        BMKPoiSearchDelegate>
 
-@property (strong, nonatomic) IBOutlet MetroListView *metroListView;
-@property (nonatomic) IBOutlet MetroListTableView *tvMetroListView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
+@property(strong, nonatomic) IBOutlet MetroListView *metroListView;
+@property(nonatomic) IBOutlet MetroListTableView *tvMetroListView;
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *cityButton;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *nearbyButton;
-@property (strong, nonatomic) BMKLocationService *locationService;
-@property (weak, nonatomic) IBOutlet UIView *mapView;
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *nearbyButton;
+@property(strong, nonatomic) BMKLocationService *locationService;
+@property(weak, nonatomic) IBOutlet UIView *mapView;
 
-@property (strong, nonatomic) IBOutlet BMKMapView *bmkMapView;
-@property (weak, nonatomic) IBOutlet UISearchBar *metroSearchBar;
-@property (strong, nonatomic) IBOutlet UISearchDisplayController *metroSearchController;
-@property (nonatomic, retain) City *selectedCity;
+@property(strong, nonatomic) IBOutlet BMKMapView *bmkMapView;
+@property(weak, nonatomic) IBOutlet UISearchBar *metroSearchBar;
+@property(strong, nonatomic)
+    IBOutlet UISearchDisplayController *metroSearchController;
+@property(nonatomic, retain) City *selectedCity;
 @end
